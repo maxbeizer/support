@@ -21,5 +21,19 @@ defmodule Support.User do
     |> validate_length(:name, min: 1, message: "cannot be blank")
     |> validate_length(:email, min: 1, message: "cannot be blank")
     |> validate_format(:eamil, ~r/@/)
+    |> validate_confirmation(:password, message: "passwords must match")
+    |> encrypt_password()
+  end
+
+  def encrypt_password(changeset) do
+    if password = get_change(changeset, :password) do
+      put_change(changeset, :encrypt_password, hash_password(password))
+    else
+      changeset
+    end
+  end
+
+  def hash_password(password) do
+    Comeonin.Bcrypt.hashpwsalt(password)
   end
 end
