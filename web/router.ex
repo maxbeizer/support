@@ -35,4 +35,9 @@ defmodule Support.Router do
       assign(conn, :current_user, nil)
     end
   end
+
+  scope "/api", Support do
+    pipe_through :api
+    resources "/users", UserController, except: [:new, :edit, :create, :delete]
+  end
 end
