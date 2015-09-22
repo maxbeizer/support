@@ -1,7 +1,11 @@
 <div class="jumbotron">
   <%= if @current_user do %>
     <h2>Welcome <%= @current_user.name %>!</h2>
+    <%= link "Logout", to: session_path(@conn, :delete), method: :delete %>
   <% else %>
+    <%= link "Login", to: session_path(@conn, :new) %>
+    or
+    <%= link "Register", to: registration_path(@conn, :new) %>
     <h2>Welcome to Phoenix!</h2>
     <p class="lead">A productive web framework that<br />does not compromise speed and maintainability.</p>
   <% end %>

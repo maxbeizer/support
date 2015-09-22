@@ -27,7 +27,7 @@ defmodule Support.User do
 
   def encrypt_password(changeset) do
     if password = get_change(changeset, :password) do
-      put_change(changeset, :encrypt_password, hash_password(password))
+      put_change(changeset, :encrypted_password, hash_password(password))
     else
       changeset
     end
@@ -35,5 +35,9 @@ defmodule Support.User do
 
   def hash_password(password) do
     Comeonin.Bcrypt.hashpwsalt(password)
+  end
+
+  def check_password(password, encrypted_password) do
+    Comeonin.Bcrypt.checkpw(password, encrypted_password)
   end
 end
